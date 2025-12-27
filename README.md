@@ -1,3 +1,3 @@
 # Notes
 
-This is a place where I put notes/excersises
+This is a place where I put notes/exercises.
