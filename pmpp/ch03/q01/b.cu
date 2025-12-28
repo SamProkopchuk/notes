@@ -9,7 +9,7 @@ __global__ void matmul_by_col(const float *pA, const float *pB, float *pC,
   // MxK @ KxN
   const u32 col = blockIdx.x * blockDim.x + threadIdx.x;
   if (col < N) {
-    // Col of the B matrix
+    // Row of the C (output) matrix
     for (u32 row = 0; row < M; ++row) {
       float acc = 0.0f;
       for (u32 k = 0; k < K; ++k) {
