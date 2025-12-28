@@ -43,9 +43,8 @@ int main() {
   cudaMalloc(&pAdev, A.size() * sizeof(float));
   cudaMalloc(&pBdev, B.size() * sizeof(float));
   cudaMalloc(&pCdev, C.size() * sizeof(float));
-  cudaMemcpyAsync(pAdev, A.data(), A.size() * sizeof(float), cudaMemcpyHostToDevice);
-  cudaMemcpyAsync(pBdev, B.data(), B.size() * sizeof(float), cudaMemcpyHostToDevice);
-  cudaDeviceSynchronize();
+  cudaMemcpy(pAdev, A.data(), A.size() * sizeof(float), cudaMemcpyHostToDevice);
+  cudaMemcpy(pBdev, B.data(), B.size() * sizeof(float), cudaMemcpyHostToDevice);
   matmul_by_row<<<gridSize, blockSize>>>(pAdev, pBdev, pCdev, M, K, N);
   cudaDeviceSynchronize();
   cudaError_t err = cudaGetLastError();
