@@ -1,10 +1,10 @@
 #include <array>
+#include <cassert>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cassert>
 
 namespace {
 
