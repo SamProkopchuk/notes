@@ -8,7 +8,7 @@ __global__ void matmul_by_col(const float *pA, const float *pB, float *pC,
                               const int M, const int K, const int N) {
   // MxK @ KxN
   const u32 col = blockIdx.x * blockDim.x + threadIdx.x;
-  if (col < M) {
+  if (col < N) {
     // Col of the B matrix
     for (u32 row = 0; row < M; ++row) {
       float acc = 0.0f;
