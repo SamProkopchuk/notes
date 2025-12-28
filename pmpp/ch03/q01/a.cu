@@ -45,18 +45,24 @@ int main() {
   cudaMalloc(&pCdev, C.size() * sizeof(float));
   cudaMemcpyAsync(pAdev, A.data(), A.size() * sizeof(float), cudaMemcpyHostToDevice);
   cudaMemcpyAsync(pBdev, B.data(), B.size() * sizeof(float), cudaMemcpyHostToDevice);
+  cudaDeviceSynchronize();
   matmul_by_row<<<gridSize, blockSize>>>(pAdev, pBdev, pCdev, M, K, N);
+  cudaDeviceSynchronize();
+  cudaError_t err = cudaGetLastError();
+  if (err != cudaSuccess) {
+    std::cerr << "CUDA error: " << cudaGetErrorString(err) << std::endl;
+    return 1;
+  }
   cudaMemcpy(C.data(), pCdev, C.size() * sizeof(float), cudaMemcpyDeviceToHost);
   cudaFree(pAdev);
   cudaFree(pBdev);
   cudaFree(pCdev);
-  // Print first row of C
+  // Print result
   for (int row = 0; row < M; ++row) {
     for (int col = 0; col < N; ++col) {
       std::cout << C[row * N + col] << " ";
     }
     std::cout << std::endl;
   }
-  std::cout << std::endl;
   return 0;
 }
